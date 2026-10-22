@@ -27,3 +27,9 @@ A IA escreveu o roteiro de teste da tela com itens como "buscar com os valores i
 **Como percebi:** ao fazer o QA, marquei todos os dias e não apareceu nenhum professor. Primeiro achei que era bug. Não era: a regra do horário fixo exige o mesmo horário livre em todos os dias, e ninguém atende sábado ou domingo. Mas o roteiro não me deixava saber disso. Pedi que cada teste dissesse o valor de cada campo, e a IA reescreveu o roteiro em tabela, acrescentando a agenda dos professores para consulta ([docs/QA.md](docs/QA.md)).
 
 **O que isso mostrou:** o código fazia o que a regra mandava, mas a tela também não explicava a regra. Disso saiu um ajuste na própria tela: textos de ajuda sobre o horário fixo (ADR-024). Nenhum teste automatizado pegaria isso; o teste manual pegou.
+
+### 3. Verificação de celular feita sem os dados na tela
+
+Depois de ajustar o CSS da agenda para telas estreitas, a IA disse que a 320 px não havia rolagem lateral. Mas tinha medido com a API desligada, sem nenhum cartão na tela; ela mesma avisou que os cartões só tinham sido vistos a 375 px.
+
+**Como percebi:** pedi um QA separado com o Playwright, com tudo rodando. A 320 px, com os cartões carregados, a tabela passava até 34 px da borda do cartão. A página não rolava para o lado, então a medida da IA estava certa no que media, mas media a coisa errada. A correção empilha a tabela abaixo de 360 px, e a nova verificação foi feita com os 8 cartões carregados.
