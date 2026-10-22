@@ -103,10 +103,10 @@ function CartaoAgenda({ professor }: { professor: AgendaProfessor }) {
           {professor.dias.map((dia) => (
             <tr key={dia.dia}>
               <th scope="row">{NomesDosDias[dia.dia] ?? dia.dia}</th>
-              <td>
+              <td data-rotulo="Livre">
                 <Periodos periodos={dia.disponivel} />
               </td>
-              <td>
+              <td data-rotulo="Ocupado">
                 <Periodos periodos={dia.ocupado} />
               </td>
             </tr>

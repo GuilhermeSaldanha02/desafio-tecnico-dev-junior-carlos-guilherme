@@ -79,7 +79,7 @@ Suba a API e a tela como na etapa 4.
 - [ ] Bruno, quarta: dois períodos livres, 18:00–19:00 e 20:00–22:00
 - [ ] Com a API desligada, recarregar a página e abrir o painel: "Não foi possível carregar a agenda…"
 - [ ] A busca continua com os mesmos resultados da etapa 4 (testes 2 e 3 da tabela)
-- [ ] No celular, os cartões ficam um embaixo do outro, sem rolagem para o lado
+- [ ] No celular (375 px e 320 px), **com a agenda aberta e os cartões carregados**: cartões um embaixo do outro, nenhuma tabela passando da borda do cartão. Abaixo de 360 px, cada dia vira um bloco com "Livre" e "Ocupado" um embaixo do outro
 
 ## Etapa 5: visual (#5)
 
