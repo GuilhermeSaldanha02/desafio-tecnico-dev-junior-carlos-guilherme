@@ -1,0 +1,72 @@
+# Arquitetura
+
+## Visão geral
+
+A solução tem três partes, e o dado anda sempre na mesma direção: **tela → API → regra**.
+
+```
+desafio-tecnico-dev-junior-carlos-guilherme/
+├─ src/
+│  ├─ EncontreProfessor.Core/   regra de negócio pura, sem ASP.NET
+│  └─ EncontreProfessor.Api/    camada HTTP: recebe, valida, chama o Core, responde
+├─ tests/
+│  └─ EncontreProfessor.Tests/  xUnit, testa o Core direto (sem subir a API)
+├─ web/                         tela em React + TypeScript (Vite)
+├─ docs/                        decisões, design, QA e o enunciado original
+└─ professores.json             dados dos professores (carregados em memória)
+```
+
+## Responsabilidade de cada projeto
+
+| Projeto | Faz | Não faz |
+|---|---|---|
+| **Core** | Modelos, validação da busca, cálculo dos horários, ordenação, motivos de quem ficou de fora | Não conhece HTTP, JSON nem arquivo |
+| **Api** | Lê o `professores.json`, recebe a requisição, traduz o resultado do Core em 200 ou 400 | Não tem regra de negócio |
+| **Tests** | Prova cada regra do enunciado, inclusive as fronteiras | Não sobe a API |
+| **web** | Formulário, resultado e todos os estados da tela | Não repete a validação da API (ver ADR-014) |
+
+O Core define a interface `IProfessorRepository`; a Api implementa lendo o arquivo. Assim o Core nunca sabe de onde os professores vêm, e os testes passam professores montados à mão.
+
+## Estrutura interna do Core
+
+```
+EncontreProfessor.Core/
+├─ Models/       Professor, Disponibilidade, AulaMarcada
+├─ Busca/        requisição, resultado e o serviço de busca
+├─ Validacao/    validador da requisição
+└─ Interfaces/   IProfessorRepository
+```
+
+Os modelos respondem sobre si mesmos: a disponibilidade sabe se uma aula cabe nela, a aula marcada sabe se colide com outra, o professor sabe se está livre num dia e horário. O serviço só orquestra.
+
+## Padrão de código
+
+Segue o estilo das provas de POO do autor, com os ajustes combinados para uma API:
+
+- **Validar o que dá errado primeiro, caminho feliz no fim** (guard clauses).
+- **Nunca `else` depois de `return`.** Para classificar, um método pequeno com `if ... return` em sequência.
+- **Uma instrução por linha**, chaves em bloco.
+- **Service devolve um objeto de resultado** (erros ou resposta). Quem decide entre 200 e 400 é o Controller. Nada de `Console` nem de texto `"Erro: ..."` como retorno.
+- **Sem número ou texto solto:** tudo em constante, com nome em **PascalCase** (`DuracoesPermitidas`, `MotivoNaoEnsinaIdioma`).
+- Encapsulamento com `private set`, interface para repositório, injeção de dependência pelo construtor, campos `_nome` `private readonly`, `namespace` de arquivo.
+- Nomes em português, como no enunciado.
+
+## Fluxo de trabalho (Git)
+
+Branches: `main`, `staging` e uma `feat/*` (ou `chore/*`, `docs/*`) por etapa.
+
+1. A branch de trabalho sai da `main` atualizada.
+2. Terminada a etapa, ela é **mergeada direto na `staging`** (sem PR) para o QA testar.
+3. Se o QA achar problema, a correção é feita **na branch de trabalho** e mergeada de novo na `staging`.
+4. Com o QA aprovado, abre-se o **PR da branch de trabalho para a `main`**, com `Closes #N`.
+5. **Nunca há PR da `staging`.** Ela é o ambiente de teste e pode ser apagada e recriada a partir da `main` a qualquer momento.
+
+Commits seguem **Conventional Commits**: `tipo(escopo): descrição`, com o escopo indicando o assunto da branch.
+
+```
+feat(busca): cria regra de horário fixo em todos os dias
+test(busca): cobre aula que encosta em aula marcada
+chore(estrutura): cria solução com Core, Api e Tests
+```
+
+As tarefas ficam no [quadro do projeto](https://github.com/users/GuilhermeSaldanha02/projects/1), um card por etapa, com as colunas *A fazer*, *Fazendo*, *Na staging (QA)* e *Feito*.
