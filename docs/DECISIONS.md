@@ -142,3 +142,12 @@ Registro das decisões do projeto no formato ADR (*Architecture Decision Record*
 **Contexto:** no QA, marcar os sete dias deu "nenhum professor disponível", e pareceu erro. Não era: a regra 3 exige o mesmo início livre em todos os dias, e ninguém atende sábado ou domingo. O código estava certo; a tela não explicava a regra.
 **Decisão:** uma linha de ajuda abaixo de "Dias da semana" e uma dica junto da mensagem de lista vazia. Com mais de um dia marcado, a dica fala da regra e sugere marcar menos dias; com um dia só, sugere ampliar a faixa ou trocar o dia.
 **Consequência:** a dúvida é resolvida na própria tela, sem mudar a API nem a regra. É o tipo de problema que um teste automatizado não pega e o QA manual pegou.
+
+## ADR-025: Agenda dos professores, fora do enunciado
+
+**Contexto:** no QA, quem testa a tela não conhece o `professores.json` e não consegue saber por que um professor aparece ou fica de fora. O primeiro usuário real da tela é quem avalia o desafio.
+**Decisão:** `GET /api/professores` devolve a agenda de cada professor (idiomas, períodos livres e horários ocupados por dia, agenda bloqueada), e a tela mostra isso num painel recolhível "Ver agenda dos professores". O serviço fica em `Core/Agenda`, separado da busca, e só lê os dados: não filtra nem calcula horário.
+- A Carla aparece com "Agenda bloqueada: não recebe novos alunos". A regra 2 diz que ela não aparece **no resultado da busca**, e ela continua sem aparecer lá; escondê-la da agenda deixaria sem explicação o motivo dela em "Ficaram de fora".
+- As aulas marcadas aparecem só como horário ocupado, sem dizer de quem é a aula. Num sistema real, o horário de outros alunos não deveria ser exposto.
+
+**Consequência:** nenhum arquivo da busca nem dos testes da busca mudou, e os 68 testes anteriores continuam passando sem alteração. O contrato do `POST /api/professores/busca` é o do enunciado.

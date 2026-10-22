@@ -26,6 +26,17 @@ A tela lê a resposta da API e escolhe o que mostrar. A API informa o fato; a te
 
 Em todo resultado 200, abaixo da lista principal, aparece quem ficou de fora e o motivo.
 
+## Agenda dos professores (fora do enunciado)
+
+Painel recolhível "Ver agenda dos professores", abaixo da busca. Só chama a API na primeira vez que é aberto (ADR-025).
+
+| Situação | O painel mostra |
+|---|---|
+| fechado | só o título |
+| aberto, aguardando | "Carregando agenda…" |
+| aberto, com resposta | um cartão por professor: idiomas, e por dia os períodos livres e os horários ocupados; a Carla com "Agenda bloqueada: não recebe novos alunos" |
+| aberto, sem resposta | "Não foi possível carregar a agenda. Feche e abra de novo para tentar outra vez." |
+
 ## Visual
 
 *A definir na etapa `feat/visual`: paleta e tipografia de inspiração, com a fonte da pesquisa.*

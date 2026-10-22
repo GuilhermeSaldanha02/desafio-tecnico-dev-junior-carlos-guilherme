@@ -68,6 +68,19 @@ Cada teste parte da página recarregada (F5) e diz o valor de cada campo. "Ficar
 - [ ] Abaixo de "Dias da semana" aparece "O horário da aula será o mesmo em todos os dias marcados."
 - [ ] Em tela de celular, formulário e resultado ficam um embaixo do outro, sem rolagem para o lado
 
+## Agenda dos professores (#11, fora do enunciado)
+
+Suba a API e a tela como na etapa 4.
+
+- [ ] `dotnet test`: 74 aprovados (os 68 anteriores sem nenhuma alteração, mais 6 da agenda)
+- [ ] Swagger ou Insomnia: `GET http://localhost:5067/api/professores` (caso 13 do `.http`) traz os 8 professores em ordem alfabética
+- [ ] Na tela, abrir "Ver agenda dos professores": 8 cartões, iguais à tabela de agenda no topo deste arquivo
+- [ ] Carla com "Agenda bloqueada: não recebe novos alunos"
+- [ ] Bruno, quarta: dois períodos livres, 18:00–19:00 e 20:00–22:00
+- [ ] Com a API desligada, recarregar a página e abrir o painel: "Não foi possível carregar a agenda…"
+- [ ] A busca continua com os mesmos resultados da etapa 4 (testes 2 e 3 da tabela)
+- [ ] No celular, os cartões ficam um embaixo do outro, sem rolagem para o lado
+
 ## Etapa 5: visual (#5)
 
 - [ ] A tela continua passando pelos seis estados
