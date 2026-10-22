@@ -14,4 +14,9 @@
     <ProjectReference Include="..\EncontreProfessor.Core\EncontreProfessor.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!-- o arquivo fica na raiz do repositório, como no enunciado, e é copiado para a saída da Api -->
+    <None Include="..\..\professores.json" Link="professores.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
 </Project>

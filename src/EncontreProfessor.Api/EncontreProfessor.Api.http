@@ -1,0 +1,128 @@
+# Roteiro de teste da API. Abre no Visual Studio, no Rider ou no VS Code (extensão REST Client).
+# Suba a API antes: dotnet run --project src/EncontreProfessor.Api
+
+@Api = http://localhost:5067/api/professores/busca
+
+### 1. Exemplo do enunciado: Ana às 18:00; Diego às 18:00, 18:30 e 19:00
+POST {{Api}}
+Content-Type: application/json
+
+{
+  "idioma": "Espanhol",
+  "dias": ["segunda"],
+  "inicioFaixa": "18:00",
+  "fimFaixa": "20:00",
+  "duracaoMinutos": 60
+}
+
+### 2. Horário fixo em dois dias: só os inícios livres na segunda E na quarta
+POST {{Api}}
+Content-Type: application/json
+
+{
+  "idioma": "Inglês",
+  "dias": ["segunda", "quarta"],
+  "inicioFaixa": "18:00",
+  "fimFaixa": "22:00",
+  "duracaoMinutos": 60
+}
+
+### 3. Idioma e dia sem acento e com maiúsculas: "ingles" casa com "Inglês", "Terça" com "terca"
+POST {{Api}}
+Content-Type: application/json
+
+{
+  "idioma": "INGLES",
+  "dias": ["Terça", "terca"],
+  "inicioFaixa": "18:00",
+  "fimFaixa": "20:00",
+  "duracaoMinutos": 60
+}
+
+### 4. Idioma que ninguém ensina: 200 com lista vazia, todos com "Não ensina o idioma"
+POST {{Api}}
+Content-Type: application/json
+
+{
+  "idioma": "Francês",
+  "dias": ["segunda"],
+  "inicioFaixa": "18:00",
+  "fimFaixa": "20:00",
+  "duracaoMinutos": 60
+}
+
+### 5. Faixa menor que a duração: 200 com lista vazia, todos sem horário em comum
+POST {{Api}}
+Content-Type: application/json
+
+{
+  "idioma": "Inglês",
+  "dias": ["segunda"],
+  "inicioFaixa": "18:00",
+  "fimFaixa": "18:30",
+  "duracaoMinutos": 60
+}
+
+### 6. Todos os erros de validação de uma vez: 400
+POST {{Api}}
+Content-Type: application/json
+
+{
+  "idioma": "",
+  "dias": ["sabadoo"],
+  "inicioFaixa": "9:00",
+  "fimFaixa": "24:00",
+  "duracaoMinutos": 45
+}
+
+### 7. Nenhum dia informado: 400
+POST {{Api}}
+Content-Type: application/json
+
+{
+  "idioma": "Inglês",
+  "dias": [],
+  "inicioFaixa": "18:00",
+  "fimFaixa": "20:00",
+  "duracaoMinutos": 60
+}
+
+### 8. Fim da faixa antes do início: 400
+POST {{Api}}
+Content-Type: application/json
+
+{
+  "idioma": "Inglês",
+  "dias": ["segunda"],
+  "inicioFaixa": "20:00",
+  "fimFaixa": "18:00",
+  "duracaoMinutos": 60
+}
+
+### 9. Campo com tipo errado: 400 apontando o campo
+POST {{Api}}
+Content-Type: application/json
+
+{
+  "idioma": "Inglês",
+  "dias": ["segunda"],
+  "inicioFaixa": "18:00",
+  "fimFaixa": "20:00",
+  "duracaoMinutos": "abc"
+}
+
+### 10. JSON malformado: 400
+POST {{Api}}
+Content-Type: application/json
+
+{ "idioma": "Inglês",
+
+### 11. Objeto vazio: 400 com todos os campos obrigatórios
+POST {{Api}}
+Content-Type: application/json
+
+{}
+
+### 12. Corpo vazio: 400
+POST {{Api}}
+Content-Type: application/json
