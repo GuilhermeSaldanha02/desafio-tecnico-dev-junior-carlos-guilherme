@@ -1,5 +1,6 @@
 using EncontreProfessor.Api.Dados;
 using EncontreProfessor.Api.Erros;
+using EncontreProfessor.Core.Agenda;
 using EncontreProfessor.Core.Busca;
 using EncontreProfessor.Core.Interfaces;
 
@@ -24,6 +25,7 @@ builder.Services.AddSwaggerGen(opcoes =>
 string caminhoArquivo = Path.Combine(AppContext.BaseDirectory, NomeArquivoProfessores);
 builder.Services.AddSingleton<IProfessorRepository>(new ProfessorRepositoryJson(caminhoArquivo));
 builder.Services.AddScoped<BuscaProfessoresService>();
+builder.Services.AddScoped<AgendaProfessoresService>();
 
 WebApplication app = builder.Build();
 

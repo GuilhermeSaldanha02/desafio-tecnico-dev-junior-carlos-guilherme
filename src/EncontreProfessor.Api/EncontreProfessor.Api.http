@@ -126,3 +126,6 @@ Content-Type: application/json
 ### 12. Corpo vazio: 400
 POST {{Api}}
 Content-Type: application/json
+
+### 13. Agenda dos professores (fora do enunciado): os 8 em ordem alfabética, com os dias, períodos livres e horários ocupados
+GET http://localhost:5067/api/professores
