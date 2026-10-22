@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { buscarProfessores } from './api/buscarProfessores'
+import { AgendaProfessores } from './componentes/AgendaProfessores'
 import { FormularioBusca } from './componentes/FormularioBusca'
 import { ResultadoBusca } from './componentes/ResultadoBusca'
 import type { BuscaRequisicao, EstadoTela } from './tipos/busca'
@@ -39,6 +40,8 @@ function App() {
           <ResultadoBusca estado={estado} />
         </section>
       </main>
+
+      <AgendaProfessores />
     </div>
   )
 }
