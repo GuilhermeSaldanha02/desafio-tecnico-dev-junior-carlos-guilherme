@@ -22,6 +22,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\EncontreProfessor.Core\EncontreProfessor.Core.csproj" />
+    <!-- só para testar a leitura do professores.json real; os testes não sobem a API -->
+    <ProjectReference Include="..\..\src\EncontreProfessor.Api\EncontreProfessor.Api.csproj" />
   </ItemGroup>
 
 </Project>

@@ -21,7 +21,7 @@ Em toda etapa: sem erro de ortografia no que foi escrito (código, mensagens e d
 
 ## Etapa 3: API (#3)
 
-Pelo Insomnia (importando o OpenAPI de `/swagger/v1/swagger.json`) ou pelo arquivo `.http`:
+Suba a API com `dotnet run --project src/EncontreProfessor.Api` e teste pelo Swagger (`http://localhost:5067/swagger`), pelo Insomnia (importando `http://localhost:5067/swagger/v1/swagger.json`) ou pelo arquivo `src/EncontreProfessor.Api/EncontreProfessor.Api.http`, que tem os 12 casos abaixo numerados:
 
 - [ ] Teste automatizado carregando o `professores.json` real reproduz o exemplo do enunciado
 - [ ] Exemplo do enunciado: Ana com `18:00`; Diego com `18:00`, `18:30`, `19:00`

@@ -107,3 +107,21 @@ Registro das decisões do projeto no formato ADR (*Architecture Decision Record*
 **Contexto:** `"18:00\n"` e dígitos de outros alfabetos passariam em validações mais frouxas.
 **Decisão:** a expressão `^([01][0-9]|2[0-3]):[0-5][0-9]\z`, com `[0-9]` em vez de `\d` (que aceita dígitos de outros alfabetos) e `\z` em vez de `$` (que aceita uma quebra de linha no fim).
 **Consequência:** o formato é exatamente `HH:mm`, e cada caso estranho tem teste.
+
+## ADR-019: Erros de leitura do JSON no mesmo formato da validação
+
+**Contexto:** JSON malformado ou campo com tipo errado (`"duracaoMinutos": "abc"`) são barrados pelo ASP.NET antes de chegar ao Core, com resposta em inglês e em outro formato.
+**Decisão:** substituir a resposta automática (`InvalidModelStateResponseFactory`) por uma que devolve `{ "erros": [...] }` em português: com o nome do campo quando o problema é um campo, ou "O corpo da requisição não é um JSON válido." quando é o corpo inteiro. Corpo vazio chega ao Core como requisição ausente.
+**Consequência:** a tela trata um único formato de erro. Observação: um corpo enviado com acentos fora de UTF-8 é lido como texto inválido e cai em "tipo inválido" no campo; navegador, Swagger e Insomnia sempre enviam UTF-8.
+
+## ADR-020: API só em HTTP no ambiente local
+
+**Contexto:** o template redireciona para HTTPS, e a tela vai chamar a API por um proxy do Vite em HTTP.
+**Decisão:** remover o redirecionamento; a API roda em `http://localhost:5067`.
+**Consequência:** o proxy funciona sem certificado de desenvolvimento. Em produção, o HTTPS seria responsabilidade de quem publica a API.
+
+## ADR-021: Testes referenciam a Api só para ler o arquivo real
+
+**Contexto:** o teste com o `professores.json` real precisa do repositório, que fica na Api (ADR-017).
+**Decisão:** o projeto de testes referencia a Api e usa o `ProfessorRepositoryJson` direto, sem subir servidor.
+**Consequência:** o enunciado pede testes que não dependam de subir a API, e eles não dependem: criam o repositório e o serviço como objetos comuns.
