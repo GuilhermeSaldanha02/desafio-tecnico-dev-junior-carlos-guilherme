@@ -48,6 +48,19 @@ Caminho de uma busca:
 3. Para cada professor, `BuscaProfessoresService` testa os motivos na ordem do enunciado e fica com os inícios livres em **todos** os dias pedidos.
 4. O resultado sai ordenado e embrulhado num `ResultadoBusca`: erros ou resposta.
 
+## Estrutura interna da Api
+
+```
+EncontreProfessor.Api/
+├─ Controllers/  ProfessoresController: POST /api/professores/busca
+├─ Dados/        ProfessorRepositoryJson e as classes de leitura do arquivo
+├─ Erros/        RespostaErro ({ "erros": [...] }) e RespostaErroLeitura
+├─ Program.cs    registro dos serviços, Swagger e tratamento de erro inesperado
+└─ EncontreProfessor.Api.http   roteiro de teste com todos os casos
+```
+
+O Controller tem uma linha de decisão: se o `ResultadoBusca` tem erros, 400; senão, 200. Os erros que acontecem **antes** de chegar ao Core (JSON malformado, campo com tipo errado) são traduzidos pelo `RespostaErroLeitura` para o mesmo formato. Um erro inesperado vira 500 com o mesmo formato, sem expor detalhes internos.
+
 ## Padrão de código
 
 Segue o estilo das provas de POO do autor, com os ajustes combinados para uma API:
