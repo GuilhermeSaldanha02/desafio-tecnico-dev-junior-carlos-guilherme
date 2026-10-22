@@ -38,6 +38,6 @@ export type ResultadoChamada =
 export type EstadoTela =
   | { tipo: 'inicial' }
   | { tipo: 'carregando' }
-  | { tipo: 'sucesso'; resposta: BuscaResposta; idioma: string }
+  | { tipo: 'sucesso'; resposta: BuscaResposta; idioma: string; quantidadeDias: number }
   | { tipo: 'validacao'; erros: string[] }
   | { tipo: 'falha' }

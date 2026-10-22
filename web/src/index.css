@@ -86,6 +86,12 @@ body {
   padding: 0;
 }
 
+.campo-ajuda {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--cor-texto-suave);
+}
+
 select,
 input[type='time'] {
   font: inherit;
@@ -173,6 +179,17 @@ input:focus-visible {
   border-radius: 8px;
   background-color: var(--cor-destaque-suave);
   color: var(--cor-texto);
+}
+
+.aviso-vazio .aviso-titulo {
+  margin: 0;
+  font-weight: 400;
+}
+
+.aviso-dica {
+  margin: 4px 0 0;
+  font-size: 0.9rem;
+  color: var(--cor-texto-suave);
 }
 
 .professores {
