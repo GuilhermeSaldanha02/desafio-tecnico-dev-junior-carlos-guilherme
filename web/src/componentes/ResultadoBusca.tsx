@@ -8,11 +8,21 @@ type Props = {
 
 // A API informa o fato; a tela escolhe como explicar (ADR-012)
 function mensagemSemProfessores(resposta: BuscaResposta, idioma: string) {
-  const ninguemEnsina =
-    resposta.naoElegiveis.length > 0 && resposta.naoElegiveis.every((professor) => professor.motivo === MotivoNaoEnsinaIdioma)
-  if (ninguemEnsina) return `Nenhum professor ensina ${idioma} no momento.`
+  if (ninguemEnsinaOIdioma(resposta)) return `Nenhum professor ensina ${idioma} no momento.`
 
   return 'Nenhum professor disponível nesses dias e horários.'
+}
+
+// Sem professor por falta de horário, a dica explica a regra do horário fixo (ADR-024)
+function dicaSemProfessores(resposta: BuscaResposta, quantidadeDias: number) {
+  if (ninguemEnsinaOIdioma(resposta)) return null
+  if (quantidadeDias > 1) return 'O mesmo horário precisa estar livre em todos os dias marcados. Tente marcar menos dias ou ampliar a faixa.'
+
+  return 'Tente ampliar a faixa de horário ou escolher outro dia.'
+}
+
+function ninguemEnsinaOIdioma(resposta: BuscaResposta) {
+  return resposta.naoElegiveis.length > 0 && resposta.naoElegiveis.every((professor) => professor.motivo === MotivoNaoEnsinaIdioma)
 }
 
 export function ResultadoBusca({ estado }: Props) {
@@ -49,12 +59,16 @@ export function ResultadoBusca({ estado }: Props) {
     )
   }
 
-  const { resposta, idioma } = estado
+  const { resposta, idioma, quantidadeDias } = estado
+  const dica = dicaSemProfessores(resposta, quantidadeDias)
 
   return (
     <div className="resultado" role="status">
       {resposta.professores.length === 0 ? (
-        <p className="aviso aviso-vazio">{mensagemSemProfessores(resposta, idioma)}</p>
+        <div className="aviso aviso-vazio">
+          <p className="aviso-titulo">{mensagemSemProfessores(resposta, idioma)}</p>
+          {dica && <p className="aviso-dica">{dica}</p>}
+        </div>
       ) : (
         <section aria-labelledby="titulo-disponiveis">
           <h2 id="titulo-disponiveis" className="secao-titulo">

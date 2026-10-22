@@ -55,6 +55,7 @@ export function FormularioBusca({ carregando, onBuscar }: Props) {
 
       <fieldset className="campo">
         <legend className="campo-rotulo">Dias da semana</legend>
+        <p className="campo-ajuda">O horário da aula será o mesmo em todos os dias marcados.</p>
         <div className="dias">
           {DiasDaSemana.map((dia) => (
             <label key={dia.valor} className="dia">

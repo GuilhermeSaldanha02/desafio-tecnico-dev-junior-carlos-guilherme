@@ -16,7 +16,12 @@ function App() {
       return
     }
 
-    setEstado({ tipo: 'sucesso', resposta: resultado.resposta, idioma: requisicao.idioma })
+    setEstado({
+      tipo: 'sucesso',
+      resposta: resultado.resposta,
+      idioma: requisicao.idioma,
+      quantidadeDias: requisicao.dias.length,
+    })
   }
 
   return (
