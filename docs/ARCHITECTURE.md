@@ -31,13 +31,22 @@ O Core define a interface `IProfessorRepository`; a Api implementa lendo o arqui
 
 ```
 EncontreProfessor.Core/
-├─ Models/       Professor, Disponibilidade, AulaMarcada
-├─ Busca/        requisição, resultado e o serviço de busca
-├─ Validacao/    validador da requisição
+├─ Models/       Intervalo, Disponibilidade, AulaMarcada, Professor
+├─ Enums/        DiaSemanaEnum
+├─ Helpers/      Horario (HH:mm ↔ minutos), Normalizador (sem acento e caixa), DiaSemanaConversor
+├─ Validacao/    ValidadorBusca e ResultadoValidacao
+├─ Busca/        requisição, critério, resposta, motivos e o BuscaProfessoresService
 └─ Interfaces/   IProfessorRepository
 ```
 
-Os modelos respondem sobre si mesmos: a disponibilidade sabe se uma aula cabe nela, a aula marcada sabe se colide com outra, o professor sabe se está livre num dia e horário. O serviço só orquestra.
+Os modelos respondem sobre si mesmos: o intervalo sabe se contém ou se sobrepõe a outro, a disponibilidade sabe se uma aula cabe nela, a aula marcada sabe se colide com outra, o professor sabe se ensina um idioma e se está livre num dia e horário. O serviço só orquestra.
+
+Caminho de uma busca:
+
+1. `ValidadorBusca` confere a requisição e, se estiver certa, devolve um `CriterioBusca` já convertido (minutos, dias sem repetição).
+2. `CriterioBusca.AulasPossiveis()` gera os inícios candidatos: de 30 em 30 minutos, a partir da primeira hora cheia ou meia hora da faixa, enquanto a aula couber na faixa.
+3. Para cada professor, `BuscaProfessoresService` testa os motivos na ordem do enunciado e fica com os inícios livres em **todos** os dias pedidos.
+4. O resultado sai ordenado e embrulhado num `ResultadoBusca`: erros ou resposta.
 
 ## Padrão de código
 

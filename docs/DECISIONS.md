@@ -64,8 +64,8 @@ Registro das decisões do projeto no formato ADR (*Architecture Decision Record*
 
 ## ADR-011: Ordenação alfabética respeitando o português
 
-**Decisão:** comparar nomes com a cultura `pt-BR`. `naoElegiveis` também sai em ordem alfabética.
-**Consequência:** "Fábio" fica entre "Elisa" e "Gabriela". Uma comparação ordinal jogaria nomes com acento para depois do Z.
+**Decisão:** ordenar pelo nome **normalizado** (sem acento, em minúsculas, a mesma função usada para idioma e dias), com comparação ordinal. Empate exato no nome desempata pelo `id`. `naoElegiveis` também sai em ordem alfabética.
+**Consequência:** "Ágata" vem antes de "Bruno"; uma comparação ordinal do nome original jogaria nomes com acento para depois do Z. Não depender da cultura do sistema (`pt-BR`) faz o resultado ser o mesmo em qualquer máquina, inclusive Linux ou contêiner sem dados de idioma instalados.
 
 ## ADR-012: A frase "nenhum professor ensina este idioma" é da tela
 
@@ -95,3 +95,15 @@ Registro das decisões do projeto no formato ADR (*Architecture Decision Record*
 **Contexto:** a máquina de desenvolvimento também tem o .NET 10, que seria usado por padrão.
 **Decisão:** `global.json` exige um SDK 8.0 e os projetos têm `net8.0` como alvo.
 **Consequência:** compila e testa com a mesma versão que o enunciado exige.
+
+## ADR-017: Modelos do Core não conhecem JSON
+
+**Contexto:** os modelos têm construtor e propriedades só de leitura, e o `System.Text.Json` não preenche esse tipo de classe sem atributos.
+**Decisão:** nenhum atributo de JSON no Core. A Api lê o arquivo em classes próprias de leitura e converte para os modelos do Core.
+**Consequência:** o Core continua sem saber de onde os dados vêm. O teste que carrega o `professores.json` real e confere o exemplo do enunciado fica na etapa da Api, onde existe a leitura do arquivo. Na etapa do Core, o mesmo exemplo é testado com Ana, Bruno e Diego montados à mão, iguais ao arquivo.
+
+## ADR-018: Formato de horário validado por expressão regular
+
+**Contexto:** `"18:00\n"` e dígitos de outros alfabetos passariam em validações mais frouxas.
+**Decisão:** a expressão `^([01][0-9]|2[0-3]):[0-5][0-9]\z`, com `[0-9]` em vez de `\d` (que aceita dígitos de outros alfabetos) e `\z` em vez de `$` (que aceita uma quebra de linha no fim).
+**Consequência:** o formato é exatamente `HH:mm`, e cada caso estranho tem teste.
