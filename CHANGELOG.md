@@ -18,3 +18,6 @@ O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/), e
 - Respostas 400 em português no formato `{ "erros": [...] }`, inclusive para JSON malformado e campo com tipo errado; erro inesperado vira 500 no mesmo formato.
 - Swagger em desenvolvimento, com descrição de cada campo e o "Try it out" já preenchido com o exemplo do enunciado; arquivo `.http` com 12 casos de teste.
 - Testes com o `professores.json` real, reproduzindo o exemplo do enunciado (total: 68 testes).
+- Tela em React + TypeScript (Vite) com formulário de idioma, dias, faixa e duração.
+- Resultado com horários e aulas na semana de cada professor, a lista de quem ficou de fora com o motivo, e os estados de carregando, nenhum professor encontrado, erro de validação e falha de comunicação.
+- Textos de ajuda que explicam a regra do horário fixo no campo de dias e na lista vazia.

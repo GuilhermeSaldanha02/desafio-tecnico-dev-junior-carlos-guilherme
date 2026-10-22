@@ -59,6 +59,24 @@ EncontreProfessor.Api/
 └─ EncontreProfessor.Api.http   roteiro de teste com todos os casos
 ```
 
+## Estrutura interna da tela
+
+```
+web/src/
+├─ tipos/busca.ts            contrato da API e os estados possíveis da tela
+├─ api/buscarProfessores.ts  chama a API e devolve sucesso, validação ou falha
+├─ componentes/
+│  ├─ FormularioBusca.tsx    idioma, dias, faixa e duração
+│  ├─ ResultadoBusca.tsx     escolhe o que mostrar para cada estado
+│  ├─ ListaProfessores.tsx   professores disponíveis com os horários
+│  └─ ListaNaoElegiveis.tsx  quem ficou de fora e o motivo
+└─ App.tsx                   guarda o estado atual e liga formulário e resultado
+```
+
+A tela tem um único estado, que é sempre um destes: inicial, carregando, sucesso, erro de validação ou falha. O `buscarProfessores` traduz a resposta HTTP nesses casos, e o `ResultadoBusca` só lê o estado. Em desenvolvimento, o Vite repassa `/api` para `http://localhost:5067`.
+
+## Detalhes da Api
+
 O Controller tem uma linha de decisão: se o `ResultadoBusca` tem erros, 400; senão, 200. Os erros que acontecem **antes** de chegar ao Core (JSON malformado, campo com tipo errado) são traduzidos pelo `RespostaErroLeitura` para o mesmo formato. Um erro inesperado vira 500 com o mesmo formato, sem expor detalhes internos.
 
 ## Padrão de código

@@ -125,3 +125,20 @@ Registro das decisões do projeto no formato ADR (*Architecture Decision Record*
 **Contexto:** o teste com o `professores.json` real precisa do repositório, que fica na Api (ADR-017).
 **Decisão:** o projeto de testes referencia a Api e usa o `ProfessorRepositoryJson` direto, sem subir servidor.
 **Consequência:** o enunciado pede testes que não dependam de subir a API, e eles não dependem: criam o repositório e o serviço como objetos comuns.
+
+## ADR-022: Tela sem biblioteca de estado nem de componentes
+
+**Contexto:** a tela tem um formulário e um resultado.
+**Decisão:** React com `useState` e `fetch` nativo, CSS próprio com variáveis. O estado da tela é um tipo só, com cinco formas possíveis (inicial, carregando, sucesso, validação, falha), e o TypeScript obriga a tratar cada uma.
+**Consequência:** nenhum estado impossível, como "carregando e com erro ao mesmo tempo", pode acontecer. Qualquer resposta que não seja 200 ou 400 com `erros`, inclusive a API fora do ar, vira o estado de falha de comunicação.
+
+## ADR-023: Formulário começa com o exemplo do enunciado
+
+**Decisão:** os valores iniciais são Espanhol, segunda, 18:00 a 20:00 e 60 minutos.
+**Consequência:** quem abre a tela pela primeira vez vê um resultado com um clique, e ele bate com o exemplo do enunciado.
+
+## ADR-024: A tela explica a regra do horário fixo
+
+**Contexto:** no QA, marcar os sete dias deu "nenhum professor disponível", e pareceu erro. Não era: a regra 3 exige o mesmo início livre em todos os dias, e ninguém atende sábado ou domingo. O código estava certo; a tela não explicava a regra.
+**Decisão:** uma linha de ajuda abaixo de "Dias da semana" e uma dica junto da mensagem de lista vazia. Com mais de um dia marcado, a dica fala da regra e sugere marcar menos dias; com um dia só, sugere ampliar a faixa ou trocar o dia.
+**Consequência:** a dúvida é resolvida na própria tela, sem mudar a API nem a regra. É o tipo de problema que um teste automatizado não pega e o QA manual pegou.

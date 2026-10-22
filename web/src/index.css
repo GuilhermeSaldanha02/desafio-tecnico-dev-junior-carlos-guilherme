@@ -1,0 +1,286 @@
+/* Tokens de cor e espaço: a etapa de visual troca só estes valores */
+:root {
+  --cor-fundo: #f5f6f8;
+  --cor-superficie: #ffffff;
+  --cor-texto: #1d2330;
+  --cor-texto-suave: #5b6472;
+  --cor-borda: #dde1e7;
+  --cor-destaque: #2f5bd3;
+  --cor-destaque-texto: #ffffff;
+  --cor-destaque-suave: #e8eefc;
+  --cor-erro: #b42318;
+  --cor-erro-suave: #fdecea;
+  --raio: 10px;
+  --espaco: 16px;
+
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  line-height: 1.5;
+  color: var(--cor-texto);
+  background-color: var(--cor-fundo);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: var(--cor-fundo);
+}
+
+.pagina {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: calc(var(--espaco) * 2) var(--espaco);
+}
+
+.cabecalho {
+  margin-bottom: calc(var(--espaco) * 1.5);
+}
+
+.titulo {
+  margin: 0;
+  font-size: 1.75rem;
+}
+
+.subtitulo {
+  margin: 4px 0 0;
+  color: var(--cor-texto-suave);
+}
+
+.conteudo {
+  display: grid;
+  grid-template-columns: minmax(280px, 360px) 1fr;
+  gap: calc(var(--espaco) * 1.5);
+  align-items: start;
+}
+
+.painel {
+  background-color: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  padding: calc(var(--espaco) * 1.25);
+}
+
+/* Formulário */
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaco);
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.campo-rotulo {
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0;
+}
+
+.campo-ajuda {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--cor-texto-suave);
+}
+
+select,
+input[type='time'] {
+  font: inherit;
+  padding: 8px 10px;
+  border: 1px solid var(--cor-borda);
+  border-radius: 8px;
+  background-color: var(--cor-superficie);
+  color: var(--cor-texto);
+}
+
+.dias {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+}
+
+.dia {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.faixa {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--espaco);
+}
+
+.botao {
+  font: inherit;
+  font-weight: 600;
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 8px;
+  background-color: var(--cor-destaque);
+  color: var(--cor-destaque-texto);
+  cursor: pointer;
+}
+
+.botao:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.botao:focus-visible,
+select:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--cor-destaque);
+  outline-offset: 2px;
+}
+
+/* Resultado */
+
+.secao-titulo {
+  margin: 0 0 12px;
+  font-size: 1.1rem;
+}
+
+.aviso {
+  margin: 0;
+  color: var(--cor-texto-suave);
+}
+
+.aviso-falha,
+.aviso-erro {
+  padding: 12px 14px;
+  border-radius: 8px;
+  background-color: var(--cor-erro-suave);
+  color: var(--cor-erro);
+}
+
+.aviso-titulo {
+  margin: 0 0 4px;
+  font-weight: 600;
+}
+
+.erros {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.aviso-vazio {
+  padding: 12px 14px;
+  border-radius: 8px;
+  background-color: var(--cor-destaque-suave);
+  color: var(--cor-texto);
+}
+
+.aviso-vazio .aviso-titulo {
+  margin: 0;
+  font-weight: 400;
+}
+
+.aviso-dica {
+  margin: 4px 0 0;
+  font-size: 0.9rem;
+  color: var(--cor-texto-suave);
+}
+
+.professores {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.professor {
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  padding: 12px 14px;
+}
+
+.professor-cabecalho {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.professor-nome {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.professor-aulas {
+  font-size: 0.85rem;
+  color: var(--cor-texto-suave);
+}
+
+.horarios-rotulo {
+  margin: 8px 0 6px;
+  font-size: 0.85rem;
+  color: var(--cor-texto-suave);
+}
+
+.horarios {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.horario {
+  padding: 2px 10px;
+  border-radius: 999px;
+  background-color: var(--cor-destaque-suave);
+  color: var(--cor-destaque);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.nao-elegiveis {
+  margin-top: calc(var(--espaco) * 1.5);
+  padding-top: var(--espaco);
+  border-top: 1px solid var(--cor-borda);
+}
+
+.nao-elegiveis-lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.nao-elegivel {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.nao-elegivel-nome {
+  font-weight: 600;
+}
+
+.nao-elegivel-motivo {
+  color: var(--cor-texto-suave);
+}
+
+@media (max-width: 720px) {
+  .conteudo {
+    grid-template-columns: 1fr;
+  }
+}
