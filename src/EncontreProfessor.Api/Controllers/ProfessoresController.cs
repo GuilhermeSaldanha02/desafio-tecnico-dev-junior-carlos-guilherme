@@ -6,6 +6,7 @@ namespace EncontreProfessor.Api.Controllers;
 
 [ApiController]
 [Route("api/professores")]
+[Produces("application/json")]
 public class ProfessoresController : ControllerBase
 {
     private readonly BuscaProfessoresService _buscaProfessoresService;
@@ -15,6 +16,9 @@ public class ProfessoresController : ControllerBase
         _buscaProfessoresService = buscaProfessoresService;
     }
 
+    /// <summary>Busca os professores que podem dar aula no mesmo horário em todos os dias pedidos.</summary>
+    /// <response code="200">Professores disponíveis com os horários possíveis, e os que ficaram de fora com o motivo.</response>
+    /// <response code="400">Requisição inválida: a lista "erros" traz todos os problemas encontrados.</response>
     [HttpPost("busca")]
     [ProducesResponseType(typeof(BuscaResposta), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(RespostaErro), StatusCodes.Status400BadRequest)]

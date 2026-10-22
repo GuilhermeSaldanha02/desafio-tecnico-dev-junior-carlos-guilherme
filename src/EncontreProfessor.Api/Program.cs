@@ -13,7 +13,12 @@ builder.Services
     .ConfigureApiBehaviorOptions(opcoes => opcoes.InvalidModelStateResponseFactory = RespostaErroLeitura.Criar);
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(opcoes =>
+{
+    // descrições e exemplos vêm dos comentários /// do Controller e da BuscaRequisicao
+    opcoes.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "EncontreProfessor.Api.xml"));
+    opcoes.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "EncontreProfessor.Core.xml"));
+});
 
 // lido uma vez ao subir a API; se o arquivo faltar, a API não sobe
 string caminhoArquivo = Path.Combine(AppContext.BaseDirectory, NomeArquivoProfessores);
