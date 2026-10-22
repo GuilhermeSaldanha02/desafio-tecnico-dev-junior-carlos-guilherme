@@ -17,13 +17,15 @@ Em toda etapa: sem erro de ortografia no que foi escrito (código, mensagens e d
 - [ ] `dotnet test` verde
 - [ ] Cada regra do enunciado tem pelo menos um teste (tabela regra → teste no PR)
 - [ ] Fronteiras cobertas: aula que encosta, bloco quebrado, bloco que começa 18:15, empate na ordenação, prioridade dos motivos
-- [ ] Teste com o `professores.json` real bate com o exemplo do enunciado
+- [ ] Exemplo do enunciado reproduzido com Ana, Bruno e Diego montados à mão (o teste com o arquivo real fica na etapa 3, ver ADR-017)
 
 ## Etapa 3: API (#3)
 
 Pelo Insomnia (importando o OpenAPI de `/swagger/v1/swagger.json`) ou pelo arquivo `.http`:
 
+- [ ] Teste automatizado carregando o `professores.json` real reproduz o exemplo do enunciado
 - [ ] Exemplo do enunciado: Ana com `18:00`; Diego com `18:00`, `18:30`, `19:00`
+- [ ] `"idioma": "ingles"` encontra os professores de Inglês, e a ordem alfabética sai certa com acento
 - [ ] Francês: 200, lista vazia, todos com "Não ensina o idioma"
 - [ ] Cada um dos seis casos de 400, com mensagem em português
 - [ ] Corpo vazio, JSON malformado e tipo errado: 400 no mesmo formato
