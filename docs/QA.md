@@ -32,7 +32,12 @@ Suba a API com `dotnet run --project src/EncontreProfessor.Api` e teste pelo Swa
 
 ## Etapa 4: tela (#4)
 
+Suba a API (`dotnet run --project src/EncontreProfessor.Api`) e, em outro terminal, a tela (`cd web`, `npm install` na primeira vez, `npm run dev`). Abra `http://localhost:5173`.
+
 - [ ] Os seis estados do [DESIGN.md](DESIGN.md), um por um
+- [ ] Buscar com os valores iniciais: Ana às 18:00; Diego às 18:00, 18:30 e 19:00
+- [ ] Francês: "Nenhum professor ensina Francês no momento."
+- [ ] Inglês com faixa 18:00 a 18:30 e 60 minutos: "Nenhum professor disponível nesses dias e horários."
 - [ ] Falha de comunicação: desligar a API e buscar
 - [ ] Erro de validação: buscar sem marcar nenhum dia
 - [ ] Lista de quem ficou de fora aparece com o motivo
