@@ -4,7 +4,9 @@ Todas as mudanças relevantes do projeto ficam registradas aqui.
 
 O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/), e o projeto usa [Versionamento Semântico](https://semver.org/lang/pt-BR/).
 
-## [Não lançado]
+## [1.0.0] - 2026-10-23
+
+Primeira entrega do desafio.
 
 ### Adicionado
 
@@ -23,3 +25,13 @@ O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/), e
 - Textos de ajuda que explicam a regra do horário fixo no campo de dias e na lista vazia.
 - Visual inspirado no site da King of Languages: azul e vermelho da marca, título em duas cores, Poppins e Inter, ícone próprio; erro, bloqueio e horários com formas distintas; estado inicial explicando o horário fixo.
 - Agenda dos professores, fora do enunciado: `GET /api/professores` e painel "Ver agenda dos professores" na tela, só de leitura (total: 74 testes).
+- README com o passo a passo para rodar, escrito para quem não programa, as principais decisões e o que ficou faltando.
+- Roteiro de teste (`docs/QA.md`) único do produto final, no mesmo padrão: cada teste com o valor de cada campo e o resultado esperado.
+- `USO_DE_IA.md` com as ferramentas, como foram usadas, a supervisão do QA e três erros da IA.
+
+### Corrigido
+
+- Tabela da agenda passando da borda do cartão em telas de 320 px (achado no QA com Playwright).
+- Lista "Ficaram de fora" com dois alinhamentos em tela estreita (achado no QA com Playwright).
+
+[1.0.0]: https://github.com/GuilhermeSaldanha02/desafio-tecnico-dev-junior-carlos-guilherme/releases/tag/v1.0.0

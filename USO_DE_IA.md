@@ -1,16 +1,24 @@
 # Uso de IA
 
-*Documento em construção: os registros são feitos durante o desenvolvimento, não no fim.*
+Os registros abaixo foram feitos durante o desenvolvimento, à medida que as coisas aconteciam, e não reconstruídos no fim.
 
 ## Ferramentas
 
-- **Claude Code** (modelo Claude Opus 5.5), no aplicativo desktop.
+- **Claude Code** (modelo Claude Opus 5.5), no aplicativo desktop: a sessão principal, onde planejei, debati as decisões e a IA escreveu o código.
+- **Sessões separadas de QA**, também no Claude Code, com o **Playwright** (automação de navegador): só testavam, sem alterar código, e salvavam um print de cada item. Rodaram sob a minha supervisão: eu disparei cada uma, acompanhei e tomei as decisões que apareceram no meio (por exemplo, liberar as portas da API e da tela para a sessão subir os próprios servidores).
+- **Dois agentes de parecer** para a direção visual, um no papel de avaliador técnico e outro no de designer de produto. Eles só opinaram; a escolha foi minha.
 
 ## Como usei
 
 - **Leitura e planejamento:** a IA leu o enunciado e os dados, e debatemos a arquitetura e cada decisão que o enunciado não cobre antes de escrever código. Para cada ponto, ela apresentou opções com uma recomendação, e eu escolhi. O resultado está em [docs/DECISIONS.md](docs/DECISIONS.md).
 - **Padrão de código:** a IA leu as minhas provas anteriores de POO em C# para seguir o meu estilo de escrita (validar o erro primeiro, caminho feliz no fim), e as regras ficaram em [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
-- **Código:** a IA escreve o código e explica onde cada parte fica e por quê. Eu reviso, testo na `staging` e faço o merge na `main`. Ela não faz merge na `main`.
+- **Código:** a IA escreveu o código e explicou onde cada parte fica e por quê. Ela não faz merge na `main`: cada etapa passou pelo meu teste na `staging` e entrou na `main` por um PR que eu revisei e mergeei.
+- **Teste:** cada etapa teve dois tipos de QA. O **automatizado**, com o Playwright nas sessões separadas, supervisionado por mim. E o **manual**, feito por mim, no computador e no celular, seguindo o [roteiro de teste](docs/QA.md). Os dois estão registrados em cada PR. Dois dos erros abaixo foram pegos assim.
+- **Escopo:** a agenda dos professores (ADR-025) não estava no enunciado. Ela nasceu de uma dúvida minha no teste manual, e eu decidi incluir depois de confirmar que ela não mudava nenhuma regra da busca.
+
+## O que eu garanto que entendo
+
+Revisei cada etapa antes do merge e consigo explicar, sem a IA, onde cada regra do enunciado está no código e qual teste a prova (a tabela "regra → teste" está no PR da etapa 2). As decisões são minhas: a IA recomendou e eu escolhi. Várias direções partiram de mim, e não dela: o fluxo de Git com a `staging` como ambiente de teste, os cards no GitHub Projects, a agenda dos professores, o QA com Playwright em sessões separadas e o roteiro de teste escrito para quem não programa.
 
 ## Erros da IA e como percebi
 
