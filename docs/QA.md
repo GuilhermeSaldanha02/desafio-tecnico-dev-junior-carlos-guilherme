@@ -90,6 +90,7 @@ Suba a API e a tela como na etapa 4.
 - [ ] Testes 2, 4, 7 e 8 da etapa 4: resultado com professores separados por linha e horários em etiqueta azul; Francês; erro de validação com borda vermelha à esquerda; falha de comunicação com o mesmo formato
 - [ ] Agenda: "Ver agenda dos professores" em azul; Carla com etiqueta cinza "Agenda bloqueada"
 - [ ] Celular 375 e 320 px, com resultado e agenda carregados: nada passando da borda, sem rolagem lateral
+- [ ] Celular 320 px, teste 3 da etapa 4: em "Ficaram de fora", todos os motivos ficam embaixo do nome, alinhados à esquerda (no computador, ficam à direita do nome)
 
 ## Etapa 6: entrega (#6)
 
