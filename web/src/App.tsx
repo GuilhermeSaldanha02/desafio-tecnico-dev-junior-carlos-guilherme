@@ -28,7 +28,9 @@ function App() {
   return (
     <div className="pagina">
       <header className="cabecalho">
-        <h1 className="titulo">Encontre um Professor</h1>
+        <h1 className="titulo">
+          <span className="titulo-destaque">Encontre</span> um Professor
+        </h1>
         <p className="subtitulo">Professores com o mesmo horário livre em todos os dias que você escolher.</p>
       </header>
 
