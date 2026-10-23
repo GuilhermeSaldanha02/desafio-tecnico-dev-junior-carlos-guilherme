@@ -1,98 +1,174 @@
-# Roteiro de QA
+# Roteiro de teste
 
-O QA roda na branch `staging`, depois que a branch da etapa foi mergeada nela. Problema encontrado vira comentário no card da etapa e é corrigido na branch da etapa, nunca na `staging`.
+Este roteiro foi escrito para que **qualquer pessoa, mesmo sem saber programar**, consiga testar o projeto inteiro e saber se deu certo. Cada teste diz o que fazer, o valor de cada campo e o que deve aparecer.
 
-Em toda etapa: sem erro de ortografia no que foi escrito (código, mensagens e documentação).
+O registro dos testes feitos em cada etapa do desenvolvimento está na descrição de cada PR, separando o teste automatizado (Playwright, supervisionado pelo Guilherme) do teste manual.
+
+## Antes de começar
+
+1. Siga o [README](../README.md) até o **passo 5**. No fim, você terá **dois terminais abertos**: um com a API ligada e outro com a tela ligada.
+2. Abra o navegador (Chrome ou Edge) em **http://localhost:5173**.
+3. Marque cada caixinha `[ ]` deste roteiro conforme o teste passar. Se algo sair diferente do esperado, anote o número do teste e o que apareceu.
+
+**Para voltar a tela ao começo** antes de cada teste: aperte **F5** no navegador. O formulário volta a Espanhol, segunda-feira, 18:00 às 20:00, 60 minutos.
+
+---
+
+## Parte A: testes automáticos (2 minutos)
+
+Num terceiro terminal, dentro da pasta do projeto, digite:
+
+```bash
+dotnet test
+```
+
+- [ ] O terminal termina com **0 com falha e 74 aprovados** (`Aprovado!  – Com falha: 0, Aprovado: 74` ou, em inglês, `Passed!  - Failed: 0, Passed: 74`).
+
+---
+
+## Parte B: a tela (15 minutos)
+
+### Como preencher o formulário
+
+| Campo | Como mudar |
+|---|---|
+| **Idioma** | clique na caixa e escolha Inglês, Espanhol ou Francês |
+| **Dias da semana** | clique no quadradinho de cada dia para marcar ou desmarcar |
+| **Das / Até** | clique na hora e digite, por exemplo, `18:00` |
+| **Duração da aula** | clique na caixa e escolha 30, 60 ou 90 minutos |
+
+Depois de preencher, clique no botão vermelho **Buscar professores**. O resultado aparece à direita (no celular, embaixo). **"Ficaram de fora"** é a lista abaixo do resultado, com cada professor e o motivo.
+
+### Testes
+
+Comece cada teste com **F5**. Campos não citados ficam como vieram.
+
+| # | Idioma | Dias marcados | Das | Até | Duração | O que deve aparecer |
+|---|---|---|---|---|---|---|
+| 1 | *(não mexa em nada e não clique em buscar)* | | | | | "Escolha o idioma, os dias e a faixa de horário, e clique em buscar." e, abaixo, a explicação de que os horários mostrados ficam livres em todos os dias marcados |
+| 2 | Espanhol | só segunda | 18:00 | 20:00 | 60 | **Ana**: `18:00`. **Diego**: `18:00` `18:30` `19:00`. Em "Ficaram de fora", os outros 6 com "Não ensina o idioma" |
+| 3 | Inglês | segunda **e** quarta | 18:00 | 22:00 | 60 | **Ana**: `18:00` `20:00` `20:30` `21:00`. **Fábio**: `18:30` `19:00`. **Bruno**: `18:00` `20:00`. **Gabriela**: `18:30` `19:00` `19:30`. Em "Ficaram de fora": Carla (Agenda bloqueada), Diego (Não ensina o idioma), Elisa e Heitor (Sem horário em comum nos dias pedidos) |
+| 4 | Francês | só segunda | 18:00 | 20:00 | 60 | "Nenhum professor ensina Francês no momento." e os 8 professores em "Ficaram de fora" |
+| 5 | Inglês | só segunda | 18:00 | **18:30** | 60 | "Nenhum professor disponível nesses dias e horários." e, abaixo, "Tente ampliar a faixa de horário ou escolher outro dia." |
+| 6 | Inglês | **todos os 7 dias** | 18:00 | 20:00 | 60 | "Nenhum professor disponível nesses dias e horários." e, abaixo, "O mesmo horário precisa estar livre em todos os dias marcados. Tente marcar menos dias ou ampliar a faixa." |
+| 7 | Inglês | **nenhum** (desmarque a segunda) | 18:00 | 20:00 | 60 | Caixa com borda vermelha à esquerda: "Corrija a busca:" e "Informe pelo menos um dia da semana." |
+
+- [ ] Teste 1
+- [ ] Teste 2
+- [ ] Teste 3
+- [ ] Teste 4
+- [ ] Teste 5
+- [ ] Teste 6
+- [ ] Teste 7
+
+**Por que o teste 6 não acha ninguém:** a aula precisa ser no **mesmo horário em todos os dias marcados**, e nenhum professor atende sábado nem domingo. A tabela "Agenda dos professores", no fim deste arquivo, mostra isso.
+
+### Teste 8: API desligada
+
+1. No **terminal da API** (terminal 1), aperte **Ctrl + C** e espere uns 5 segundos.
+2. Volte ao navegador e clique em **Buscar professores**.
+3. - [ ] Aparece, com borda vermelha à esquerda: "Não foi possível falar com o servidor. Tente de novo."
+4. Ligue a API de novo: no terminal 1, digite `dotnet run --project src/EncontreProfessor.Api` e espere `Now listening on: http://localhost:5067`.
+
+### Teste 9: agenda dos professores (fora do enunciado)
+
+1. Role a página até o fim e clique em **"Ver agenda dos professores"** (texto azul com uma setinha).
+2. - [ ] Aparecem **8 cartões**, um por professor, de Ana a Heitor.
+3. - [ ] O cartão da **Carla** tem a etiqueta cinza "Agenda bloqueada: não recebe novos alunos".
+4. - [ ] No cartão do **Bruno**, na linha da quarta, aparecem dois períodos livres: `18:00–19:00` e `20:00–22:00`.
+5. Compare os cartões com a tabela "Agenda dos professores" no fim deste arquivo: devem ser iguais.
+
+### Teste 10: celular
+
+1. No navegador, aperte **F12**. Abre uma área de ferramentas.
+2. Aperte **Ctrl + Shift + M** (ou clique no ícone de celular no topo dessa área).
+3. No topo da página aparece uma barra com a largura da tela. Escolha uma largura de **375** e depois de **320**.
+4. Faça o **teste 3** e abra a **agenda** (teste 9) em cada largura.
+5. - [ ] O formulário fica em cima e o resultado embaixo.
+6. - [ ] Nada sai pela lateral: não aparece barra de rolagem para os lados, e nenhum texto ou tabela passa da borda do seu quadro.
+7. - [ ] Em "Ficaram de fora", o motivo de cada professor fica embaixo do nome, todos alinhados à esquerda.
+8. Para voltar ao normal, aperte **F12** de novo.
+
+### Teste 11: aparência
+
+- [ ] O título tem "Encontre" em vermelho e "um Professor" em azul.
+- [ ] A aba do navegador mostra um ícone próprio (relógio azul com ponteiro vermelho).
+- [ ] O botão "Buscar professores" é vermelho e escurece quando o mouse passa por cima.
+- [ ] Os horários do resultado aparecem em etiquetas azuis; os professores do resultado são separados por uma linha.
+
+---
+
+## Parte C: a API sem a tela, pelo Swagger (10 minutos)
+
+O Swagger é uma página que já vem com a API e permite testar sem a tela.
+
+1. Com a API ligada (terminal 1), abra no navegador: **http://localhost:5067/swagger**
+2. Clique na faixa **POST /api/professores/busca** para abrir.
+3. Clique em **Try it out** (à direita).
+4. A caixa **Request body** já vem com o exemplo do enunciado. Clique em **Execute**.
+5. - [ ] Em **Server response**, o **Code** é `200`, e o texto mostra Ana com `"18:00"` e Diego com `"18:00"`, `"18:30"`, `"19:00"`.
+
+Agora troque o conteúdo da caixa **Request body**: apague tudo, cole cada texto abaixo e clique em **Execute** de novo.
+
+**C1: todos os erros de uma vez.** Deve dar `400` e 5 mensagens em português.
+
+```json
+{ "idioma": "", "dias": ["sabadoo"], "inicioFaixa": "9:00", "fimFaixa": "24:00", "duracaoMinutos": 45 }
+```
+
+- [ ] `400`, com: "O idioma é obrigatório.", "Dia inválido: \"sabadoo\"…", os dois erros de formato HH:mm e "A duração deve ser de 30, 60 ou 90 minutos."
+
+**C2: fim da faixa antes do início.**
+
+```json
+{ "idioma": "Inglês", "dias": ["segunda"], "inicioFaixa": "20:00", "fimFaixa": "18:00", "duracaoMinutos": 60 }
+```
+
+- [ ] `400`, com "O fim da faixa deve ser depois do início."
+
+**C3: idioma sem acento e dia com acento.**
+
+```json
+{ "idioma": "INGLES", "dias": ["Terça", "terca"], "inicioFaixa": "18:00", "fimFaixa": "20:00", "duracaoMinutos": 60 }
+```
+
+- [ ] `200`, com só o **Bruno**, no horário `"19:00"`.
+
+**C4: número escrito como texto.**
+
+```json
+{ "idioma": "Inglês", "dias": ["segunda"], "inicioFaixa": "18:00", "fimFaixa": "20:00", "duracaoMinutos": "abc" }
+```
+
+- [ ] `400`, com "O campo \"duracaoMinutos\" tem um valor de tipo inválido."
+
+**C5: agenda dos professores.** Feche a faixa do POST, abra a faixa **GET /api/professores**, clique em **Try it out** e em **Execute**.
+
+- [ ] `200`, com os 8 professores em ordem alfabética.
+
+Quem preferir, os mesmos casos (e mais alguns, 13 no total) estão prontos no arquivo `src/EncontreProfessor.Api/EncontreProfessor.Api.http`, que pode ser aberto no Visual Studio, no Rider, no VS Code (com a extensão REST Client) ou importado no Insomnia.
+
+---
+
+## Ao terminar
+
+Desligue a API e a tela: em cada terminal, **Ctrl + C**.
+
+---
 
 ## Agenda dos professores (referência para conferir resultados)
 
-Copiada do `professores.json`. Use para entender por que alguém aparece ou fica de fora.
+Copiada do `professores.json`. Use para entender por que um professor aparece ou fica de fora.
 
-| Professor | Idiomas | Disponibilidade | Aulas marcadas |
+| Professor | Idiomas | Dias e horários disponíveis | Aulas já marcadas |
 |---|---|---|---|
 | Ana | Inglês, Espanhol | segunda 18:00–22:00; quarta 18:00–22:00 | segunda 19:00 (60 min) |
-| Bruno | Inglês | segunda 18:00–21:00; terça 18:00–20:00; quarta 18:00–19:00 e 20:00–22:00; quinta 18:00–20:00 | terça 18:00 (60); quinta 18:00 (60) |
-| Carla | Inglês | segunda e quarta 08:00–22:00 | nenhuma — **agenda bloqueada** |
-| Diego | Espanhol | segunda 18:00–22:00; terça 08:00–12:00; quarta 18:00–22:00 | terça 08:30 (30) |
+| Bruno | Inglês | segunda 18:00–21:00; terça 18:00–20:00; quarta 18:00–19:00 e 20:00–22:00; quinta 18:00–20:00 | terça 18:00 (60 min); quinta 18:00 (60 min) |
+| Carla | Inglês | segunda e quarta 08:00–22:00 | nenhuma (**agenda bloqueada**) |
+| Diego | Espanhol | segunda 18:00–22:00; terça 08:00–12:00; quarta 18:00–22:00 | terça 08:30 (30 min) |
 | Elisa | Inglês | segunda 18:00–22:00 | nenhuma |
-| Fábio | Inglês | segunda 18:15–20:00; quarta 18:15–20:00; sexta 09:00–12:00 | sexta 10:00 (60) |
-| Gabriela | Inglês | segunda 17:00–23:00; quarta 17:00–23:00 | segunda 18:00 (30); quarta 20:30 (60) |
-| Heitor | Inglês | segunda 18:00–21:00; quarta 18:00–21:00 | segunda 19:00 e 20:00 (60); quarta 18:00 e 19:00 (60) |
+| Fábio | Inglês | segunda 18:15–20:00; quarta 18:15–20:00; sexta 09:00–12:00 | sexta 10:00 (60 min) |
+| Gabriela | Inglês | segunda 17:00–23:00; quarta 17:00–23:00 | segunda 18:00 (30 min); quarta 20:30 (60 min) |
+| Heitor | Inglês | segunda 18:00–21:00; quarta 18:00–21:00 | segunda 19:00 e 20:00 (60 min); quarta 18:00 e 19:00 (60 min) |
 
 Ninguém ensina Francês, e ninguém atende sábado ou domingo.
-
-## Etapa 1: estrutura (#1)
-
-- [ ] `dotnet build` sem erros e sem avisos
-- [ ] `dotnet test` roda (ainda sem testes)
-- [ ] `dotnet --version` dentro da pasta mostra 8.0.x
-- [ ] Pastas iguais ao desenho do [ARCHITECTURE.md](ARCHITECTURE.md)
-- [ ] Documentação lida e sem erro de ortografia
-
-## Etapa 2: regras no Core (#2)
-
-- [ ] `dotnet test` verde
-- [ ] Cada regra do enunciado tem pelo menos um teste (tabela regra → teste no PR)
-- [ ] Fronteiras cobertas: aula que encosta, bloco quebrado, bloco que começa 18:15, empate na ordenação, prioridade dos motivos
-- [ ] Exemplo do enunciado reproduzido com Ana, Bruno e Diego montados à mão (o teste com o arquivo real fica na etapa 3, ver ADR-017)
-
-## Etapa 3: API (#3)
-
-Suba a API com `dotnet run --project src/EncontreProfessor.Api` e teste pelo Swagger (`http://localhost:5067/swagger`), pelo Insomnia (importando `http://localhost:5067/swagger/v1/swagger.json`) ou pelo arquivo `src/EncontreProfessor.Api/EncontreProfessor.Api.http`, que tem os 12 casos abaixo numerados:
-
-- [ ] Teste automatizado carregando o `professores.json` real reproduz o exemplo do enunciado
-- [ ] Exemplo do enunciado: Ana com `18:00`; Diego com `18:00`, `18:30`, `19:00`
-- [ ] `"idioma": "ingles"` encontra os professores de Inglês, e a ordem alfabética sai certa com acento
-- [ ] Francês: 200, lista vazia, todos com "Não ensina o idioma"
-- [ ] Cada um dos seis casos de 400, com mensagem em português
-- [ ] Corpo vazio, JSON malformado e tipo errado: 400 no mesmo formato
-
-## Etapa 4: tela (#4)
-
-Suba a API (`dotnet run --project src/EncontreProfessor.Api`) e, em outro terminal, a tela (`cd web`, `npm install` na primeira vez, `npm run dev`). Abra `http://localhost:5173`.
-
-Cada teste parte da página recarregada (F5) e diz o valor de cada campo. "Ficaram de fora" é a seção abaixo do resultado, com o nome à esquerda e o motivo à direita.
-
-| # | Idioma | Dias | Das | Até | Duração | Resultado esperado |
-|---|---|---|---|---|---|---|
-| 1 | *(abrir a página e não buscar)* | | | | | "Escolha o idioma, os dias e a faixa de horário, e clique em buscar." e, abaixo, a explicação do horário fixo |
-| 2 | Espanhol | segunda | 18:00 | 20:00 | 60 | Ana `18:00`; Diego `18:00 18:30 19:00`; os outros 6 em "Ficaram de fora" com "Não ensina o idioma" |
-| 3 | Inglês | segunda e quarta | 18:00 | 22:00 | 60 | Ana `18:00 20:00 20:30 21:00`; Fábio `18:30 19:00`; Bruno `18:00 20:00`; Gabriela `18:30 19:00 19:30` |
-| 4 | Francês | segunda | 18:00 | 20:00 | 60 | "Nenhum professor ensina Francês no momento." e os 8 em "Ficaram de fora" |
-| 5 | Inglês | segunda | 18:00 | 18:30 | 60 | "Nenhum professor disponível nesses dias e horários." com a dica "Tente ampliar a faixa de horário ou escolher outro dia." |
-| 6 | Inglês | os 7 dias | 18:00 | 20:00 | 60 | Ninguém disponível, com a dica "O mesmo horário precisa estar livre em todos os dias marcados…" |
-| 7 | Inglês | *nenhum* | 18:00 | 20:00 | 60 | "Corrija a busca: Informe pelo menos um dia da semana." |
-| 8 | Espanhol | segunda | 18:00 | 20:00 | 60, **com a API desligada** | "Não foi possível falar com o servidor. Tente de novo." |
-
-- [ ] Durante a busca, o botão mostra "Buscando…" e fica desabilitado (rápido demais para ver a olho; conferido com a resposta atrasada)
-- [ ] Abaixo de "Dias da semana" aparece "O horário da aula será o mesmo em todos os dias marcados."
-- [ ] Em tela de celular, formulário e resultado ficam um embaixo do outro, sem rolagem para o lado
-
-## Agenda dos professores (#11, fora do enunciado)
-
-Suba a API e a tela como na etapa 4.
-
-- [ ] `dotnet test`: 74 aprovados (os 68 anteriores sem nenhuma alteração, mais 6 da agenda)
-- [ ] Swagger ou Insomnia: `GET http://localhost:5067/api/professores` (caso 13 do `.http`) traz os 8 professores em ordem alfabética
-- [ ] Na tela, abrir "Ver agenda dos professores": 8 cartões, iguais à tabela de agenda no topo deste arquivo
-- [ ] Carla com "Agenda bloqueada: não recebe novos alunos"
-- [ ] Bruno, quarta: dois períodos livres, 18:00–19:00 e 20:00–22:00
-- [ ] Com a API desligada, recarregar a página e abrir o painel: "Não foi possível carregar a agenda…"
-- [ ] A busca continua com os mesmos resultados da etapa 4 (testes 2 e 3 da tabela)
-- [ ] No celular (375 px e 320 px), **com a agenda aberta e os cartões carregados**: cartões um embaixo do outro, nenhuma tabela passando da borda do cartão. Abaixo de 360 px, cada dia vira um bloco com "Livre" e "Ocupado" um embaixo do outro
-
-## Etapa 5: visual (#5)
-
-- [ ] Título "Encontre" em vermelho e "um Professor" em azul; títulos em Poppins, texto em Inter
-- [ ] Ícone próprio na aba do navegador (relógio azul e vermelho), sem 404 de `favicon.ico` no console
-- [ ] Botão "Buscar professores" vermelho; escurece ao passar o mouse
-- [ ] Estado inicial: frase em negrito e a explicação do horário fixo abaixo
-- [ ] Testes 2, 4, 7 e 8 da etapa 4: resultado com professores separados por linha e horários em etiqueta azul; Francês; erro de validação com borda vermelha à esquerda; falha de comunicação com o mesmo formato
-- [ ] Agenda: "Ver agenda dos professores" em azul; Carla com etiqueta cinza "Agenda bloqueada"
-- [ ] Celular 375 e 320 px, com resultado e agenda carregados: nada passando da borda, sem rolagem lateral
-- [ ] Celular 320 px, teste 3 da etapa 4: em "Ficaram de fora", todos os motivos ficam embaixo do nome, alinhados à esquerda (no computador, ficam à direita do nome)
-
-## Etapa 6: entrega (#6)
-
-- [ ] Roteiro completo das etapas 2 a 5 com tudo junto na `staging`
-- [ ] README seguido do zero, numa pasta limpa, e funciona
