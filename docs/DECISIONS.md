@@ -151,3 +151,9 @@ Registro das decisões do projeto no formato ADR (*Architecture Decision Record*
 - As aulas marcadas aparecem só como horário ocupado, sem dizer de quem é a aula. Num sistema real, o horário de outros alunos não deveria ser exposto.
 
 **Consequência:** nenhum arquivo da busca nem dos testes da busca mudou, e os 68 testes anteriores continuam passando sem alteração. O contrato do `POST /api/professores/busca` é o do enunciado.
+
+## ADR-026: Visual inspirado na King of Languages, sem copiar a marca
+
+**Contexto:** visual não é critério de avaliação, mas mostrar que o site da empresa foi olhado é um cuidado barato. Foram renderizadas duas direções (faixa azul de topo; fundo claro com título em duas cores) e debatidas por dois pareceres, um de avaliador técnico e um de designer.
+**Decisão:** híbrido claro: fundo claro, título em duas cores, botão de ação vermelho, Poppins e Inter, mais os ajustes em que os dois pareceres concordaram (erro distinto do botão pela forma, bloqueio em cinza, horários sem cara de botão, agenda com cara de clicável, estado inicial explicando a regra). Sem logo, sem leão, sem faixa azul. Limite de tempo de 30 a 40 minutos, porque o README pesa mais na avaliação.
+**Consequência:** só os tokens no topo de `web/src/index.css` e algumas regras de estilo mudaram; nenhum componente mudou de comportamento. As fontes vêm do Google Fonts; sem internet, a tela cai nas fontes do sistema e continua funcionando.
