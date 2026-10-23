@@ -399,6 +399,18 @@ input:focus-visible {
   font-weight: 600;
 }
 
+/* Em tela estreita o motivo longo desceria sozinho: o motivo fica sempre embaixo do nome, um alinhamento só */
+@media (max-width: 480px) {
+  .nao-elegivel {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .nao-elegiveis-lista {
+    gap: 10px;
+  }
+}
+
 /* Em tela estreita a tabela da agenda não cabe em três colunas sem quebrar os períodos:
    cada dia vira um bloco, com "Livre" e "Ocupado" um embaixo do outro */
 @media (max-width: 360px) {
