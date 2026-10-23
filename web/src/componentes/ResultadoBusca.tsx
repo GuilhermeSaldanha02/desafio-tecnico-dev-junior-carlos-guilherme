@@ -27,7 +27,14 @@ function ninguemEnsinaOIdioma(resposta: BuscaResposta) {
 
 export function ResultadoBusca({ estado }: Props) {
   if (estado.tipo === 'inicial') {
-    return <p className="aviso">Escolha o idioma, os dias e a faixa de horário, e clique em buscar.</p>
+    return (
+      <div className="aviso aviso-inicial">
+        <p className="aviso-titulo">Escolha o idioma, os dias e a faixa de horário, e clique em buscar.</p>
+        <p className="aviso-dica">
+          Mostramos os horários de início que ficam livres em todos os dias marcados, para a aula ser sempre no mesmo horário.
+        </p>
+      </div>
+    )
   }
 
   if (estado.tipo === 'carregando') {

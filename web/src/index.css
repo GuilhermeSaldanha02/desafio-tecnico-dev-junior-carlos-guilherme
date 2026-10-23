@@ -1,19 +1,23 @@
-/* Tokens de cor e espaço: a etapa de visual troca só estes valores */
+/* Tokens de cor e espaço. Paleta e fontes inspiradas no site da King of Languages (ADR-026) */
 :root {
-  --cor-fundo: #f5f6f8;
+  --cor-fundo: #f5f7fa;
   --cor-superficie: #ffffff;
-  --cor-texto: #1d2330;
+  --cor-texto: #333333;
   --cor-texto-suave: #5b6472;
-  --cor-borda: #dde1e7;
-  --cor-destaque: #2f5bd3;
-  --cor-destaque-texto: #ffffff;
-  --cor-destaque-suave: #e8eefc;
+  --cor-borda: #e1e5eb;
+  --cor-destaque: #005fb3;
+  --cor-destaque-suave: #e6f0fa;
+  --cor-acao: #cc213a;
+  --cor-acao-hover: #a81b30;
+  --cor-acao-texto: #ffffff;
   --cor-erro: #b42318;
   --cor-erro-suave: #fdecea;
+  --cor-neutra-suave: #eef0f3;
   --raio: 10px;
   --espaco: 16px;
+  --fonte-titulo: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
 
-  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
   line-height: 1.5;
   color: var(--cor-texto);
   background-color: var(--cor-fundo);
@@ -38,9 +42,23 @@ body {
   margin-bottom: calc(var(--espaco) * 1.5);
 }
 
+.titulo,
+.secao-titulo,
+.professor-nome,
+.agenda-resumo {
+  font-family: var(--fonte-titulo);
+}
+
 .titulo {
   margin: 0;
-  font-size: 1.75rem;
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: var(--cor-destaque);
+}
+
+/* manchete em duas cores, como no site da King of Languages */
+.titulo-destaque {
+  color: var(--cor-acao);
 }
 
 .subtitulo {
@@ -123,13 +141,18 @@ input[type='time'] {
 
 .botao {
   font: inherit;
+  font-family: var(--fonte-titulo);
   font-weight: 600;
-  padding: 10px 16px;
+  padding: 11px 16px;
   border: 0;
-  border-radius: 8px;
-  background-color: var(--cor-destaque);
-  color: var(--cor-destaque-texto);
+  border-radius: var(--raio);
+  background-color: var(--cor-acao);
+  color: var(--cor-acao-texto);
   cursor: pointer;
+}
+
+.botao:hover:not(:disabled) {
+  background-color: var(--cor-acao-hover);
 }
 
 .botao:disabled {
@@ -156,12 +179,18 @@ input:focus-visible {
   color: var(--cor-texto-suave);
 }
 
+/* o erro se distingue do botão vermelho pela forma: fundo suave e borda à esquerda */
 .aviso-falha,
 .aviso-erro {
   padding: 12px 14px;
-  border-radius: 8px;
+  border-left: 4px solid var(--cor-erro);
+  border-radius: 0 8px 8px 0;
   background-color: var(--cor-erro-suave);
   color: var(--cor-erro);
+}
+
+.aviso-falha {
+  font-weight: 600;
 }
 
 .aviso-titulo {
@@ -181,6 +210,12 @@ input:focus-visible {
   color: var(--cor-texto);
 }
 
+.aviso-inicial .aviso-titulo {
+  margin: 0;
+  font-weight: 600;
+  color: var(--cor-texto);
+}
+
 .aviso-vazio .aviso-titulo {
   margin: 0;
   font-weight: 400;
@@ -196,12 +231,21 @@ input:focus-visible {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
 }
 
-.professor {
+/* no resultado, professores separados por linha; só controles levam moldura */
+.professores > .professor {
+  padding: 12px 0;
+  border-top: 1px solid var(--cor-borda);
+}
+
+.professores > .professor:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+/* na agenda, cada professor continua num cartão, porque ali o bloco é uma tabela */
+.agenda-lista > .professor {
   border: 1px solid var(--cor-borda);
   border-radius: var(--raio);
   padding: 12px 14px;
@@ -240,11 +284,13 @@ input:focus-visible {
   gap: 6px;
 }
 
+/* etiqueta de dado, não botão: canto pequeno e sem cursor de clique */
 .horario {
-  padding: 2px 10px;
-  border-radius: 999px;
+  padding: 3px 10px;
+  border-radius: 6px;
   background-color: var(--cor-destaque-suave);
   color: var(--cor-destaque);
+  font-size: 1rem;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
@@ -287,7 +333,17 @@ input:focus-visible {
 
 .agenda-resumo {
   font-weight: 600;
+  color: var(--cor-destaque);
   cursor: pointer;
+}
+
+.agenda-resumo:hover {
+  text-decoration: underline;
+}
+
+.agenda-resumo:focus-visible {
+  outline: 3px solid var(--cor-destaque);
+  outline-offset: 2px;
 }
 
 .agenda[open] .agenda-resumo {
@@ -303,11 +359,16 @@ input:focus-visible {
   gap: 12px;
 }
 
+/* bloqueio é um estado, não um erro: etiqueta neutra */
 .agenda-bloqueada {
+  display: inline-block;
   margin: 6px 0 0;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background-color: var(--cor-neutra-suave);
   font-size: 0.85rem;
   font-weight: 600;
-  color: var(--cor-erro);
+  color: var(--cor-texto-suave);
 }
 
 .agenda-tabela {
@@ -336,6 +397,18 @@ input:focus-visible {
   border-top: 0;
   color: var(--cor-texto-suave);
   font-weight: 600;
+}
+
+/* Em tela estreita o motivo longo desceria sozinho: o motivo fica sempre embaixo do nome, um alinhamento só */
+@media (max-width: 480px) {
+  .nao-elegivel {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .nao-elegiveis-lista {
+    gap: 10px;
+  }
 }
 
 /* Em tela estreita a tabela da agenda não cabe em três colunas sem quebrar os períodos:
