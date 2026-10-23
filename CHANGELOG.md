@@ -21,4 +21,5 @@ O formato segue o [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/), e
 - Tela em React + TypeScript (Vite) com formulário de idioma, dias, faixa e duração.
 - Resultado com horários e aulas na semana de cada professor, a lista de quem ficou de fora com o motivo, e os estados de carregando, nenhum professor encontrado, erro de validação e falha de comunicação.
 - Textos de ajuda que explicam a regra do horário fixo no campo de dias e na lista vazia.
+- Visual inspirado no site da King of Languages: azul e vermelho da marca, título em duas cores, Poppins e Inter, ícone próprio; erro, bloqueio e horários com formas distintas; estado inicial explicando o horário fixo.
 - Agenda dos professores, fora do enunciado: `GET /api/professores` e painel "Ver agenda dos professores" na tela, só de leitura (total: 74 testes).
