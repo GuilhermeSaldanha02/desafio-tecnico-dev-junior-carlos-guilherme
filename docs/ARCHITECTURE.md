@@ -36,6 +36,7 @@ EncontreProfessor.Core/
 ├─ Helpers/      Horario (HH:mm ↔ minutos), Normalizador (sem acento e caixa), DiaSemanaConversor
 ├─ Validacao/    ValidadorBusca e ResultadoValidacao
 ├─ Busca/        requisição, critério, resposta, motivos e o BuscaProfessoresService
+├─ Agenda/       AgendaProfessoresService: só leitura, fora do enunciado (ADR-025)
 └─ Interfaces/   IProfessorRepository
 ```
 
@@ -52,7 +53,7 @@ Caminho de uma busca:
 
 ```
 EncontreProfessor.Api/
-├─ Controllers/  ProfessoresController: POST /api/professores/busca
+├─ Controllers/  ProfessoresController: POST /api/professores/busca e GET /api/professores (agenda)
 ├─ Dados/        ProfessorRepositoryJson e as classes de leitura do arquivo
 ├─ Erros/        RespostaErro ({ "erros": [...] }) e RespostaErroLeitura
 ├─ Program.cs    registro dos serviços, Swagger e tratamento de erro inesperado
@@ -63,13 +64,16 @@ EncontreProfessor.Api/
 
 ```
 web/src/
-├─ tipos/busca.ts            contrato da API e os estados possíveis da tela
-├─ api/buscarProfessores.ts  chama a API e devolve sucesso, validação ou falha
+├─ tipos/busca.ts            contrato da busca e os estados possíveis da tela
+├─ tipos/agenda.ts           contrato da agenda e os estados do painel
+├─ api/buscarProfessores.ts  chama a busca e devolve sucesso, validação ou falha
+├─ api/listarAgenda.ts       chama a agenda
 ├─ componentes/
 │  ├─ FormularioBusca.tsx    idioma, dias, faixa e duração
 │  ├─ ResultadoBusca.tsx     escolhe o que mostrar para cada estado
 │  ├─ ListaProfessores.tsx   professores disponíveis com os horários
-│  └─ ListaNaoElegiveis.tsx  quem ficou de fora e o motivo
+│  ├─ ListaNaoElegiveis.tsx  quem ficou de fora e o motivo
+│  └─ AgendaProfessores.tsx  painel recolhível com a agenda de cada professor
 └─ App.tsx                   guarda o estado atual e liga formulário e resultado
 ```
 

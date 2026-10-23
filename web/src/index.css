@@ -279,6 +279,97 @@ input:focus-visible {
   color: var(--cor-texto-suave);
 }
 
+/* Agenda dos professores (fora do enunciado) */
+
+.agenda {
+  margin-top: calc(var(--espaco) * 1.5);
+}
+
+.agenda-resumo {
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.agenda[open] .agenda-resumo {
+  margin-bottom: 8px;
+}
+
+.agenda-lista {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+  gap: 12px;
+}
+
+.agenda-bloqueada {
+  margin: 6px 0 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--cor-erro);
+}
+
+.agenda-tabela {
+  width: 100%;
+  margin-top: 8px;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.agenda-tabela th,
+.agenda-tabela td {
+  padding: 4px 6px;
+  text-align: left;
+  border-top: 1px solid var(--cor-borda);
+  vertical-align: top;
+}
+
+.agenda-periodo {
+  display: inline-block;
+  white-space: nowrap;
+  margin-right: 8px;
+}
+
+.agenda-tabela thead th {
+  border-top: 0;
+  color: var(--cor-texto-suave);
+  font-weight: 600;
+}
+
+/* Em tela estreita a tabela da agenda não cabe em três colunas sem quebrar os períodos:
+   cada dia vira um bloco, com "Livre" e "Ocupado" um embaixo do outro */
+@media (max-width: 360px) {
+  .agenda-tabela thead {
+    display: none;
+  }
+
+  .agenda-tabela,
+  .agenda-tabela tbody,
+  .agenda-tabela tr,
+  .agenda-tabela th,
+  .agenda-tabela td {
+    display: block;
+  }
+
+  .agenda-tabela tr {
+    padding: 6px 0;
+    border-top: 1px solid var(--cor-borda);
+  }
+
+  .agenda-tabela th,
+  .agenda-tabela td {
+    border-top: 0;
+    padding: 1px 0;
+  }
+
+  .agenda-tabela td::before {
+    content: attr(data-rotulo) ': ';
+    color: var(--cor-texto-suave);
+  }
+}
+
 @media (max-width: 720px) {
   .conteudo {
     grid-template-columns: 1fr;
